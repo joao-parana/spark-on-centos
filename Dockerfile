@@ -83,4 +83,15 @@ RUN cd jdk8 && \
            /opt/jdk/jre/lib/amd64/libjavafx*.so \
            /opt/jdk/jre/lib/amd64/libjfx*.so
 
+ENV ANACONDA_SHA  4f5c95feb0e7efeadd3d348dcef117d7787c799f24b0429e45017008f3534e55
+ENV ANACONDA_FILE Anaconda3-4.1.1-Linux-x86_64.sh
+
+RUN cd anaconda-3-4-1 && \
+    cat xaa xab xac xad xae xaf xag xah xai > ${ANACONDA_FILE}
+    echo "••• `date` - Verify the Checksum for ${ANACONDA_FILE} " && \
+    echo `sha256sum ${ANACONDA_FILE}` && \
+    echo ${ANACONDA_SHA}` && \
+    rm -rf xaa xab xac xad xae xaf xag xah xai && \
+    echo "••• `date` - Please, Install ${ANACONDA_FILE} !"
+
 CMD ["/bin/bash"]
