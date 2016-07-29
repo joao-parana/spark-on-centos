@@ -26,7 +26,7 @@ After restarting boot2docker / Docker Machine, it will have increased swap size.
 
 
 ```
-docker run -i -t -h my-spark -p 8080:8080  --rm parana/spark bash
+docker run -i -t -h my-spark -p 8080:8080 -p 9999:9999 --rm parana/spark bash
 ```
 
 The Container Bash shell will open and you can type:

@@ -14,7 +14,7 @@ ENV REFRESHED_AT 2016-07-28-14-00-00
 ENV JAVA_HOME /opt/jdk1.8.0_91
 
 # ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH ${JAVA_HOME}/bin:${PATH}:.
+ENV PATH ${JAVA_HOME}/bin:/usr/local/anaconda3/bin:${PATH}:.
 
 # ENV TOMCAT_MAJOR_VERSION 8
 # ENV TOMCAT_VERSION 8.0.36
@@ -93,6 +93,9 @@ RUN cd anaconda-3-4-1 && \
     echo "${ANACONDA_SHA}  ${ANACONDA_FILE}" && \
     echo "${MY_CHECKSUM}" && \
     rm -rf xaa xab xac xad xae xaf xag xah xai && \
-    echo "••• `date` - Please, Install ${ANACONDA_FILE} !"
+    echo "••• `date` - Please, Install ${ANACONDA_FILE} on /usr/local/anaconda3 !" && \
+    echo "••• `date` - and then run Jupyter this way : jupyter notebook --port 9999"
+
+RUN yum install -y bzip2
 
 CMD ["/bin/bash"]
