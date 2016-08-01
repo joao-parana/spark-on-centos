@@ -4,7 +4,7 @@ FROM parana/centos7
 
 MAINTAINER "João Antonio Ferreira" <joao.parana@gmail.com>`
 
-ENV REFRESHED_AT 2016-07-28-14-00-00
+ENV REFRESHED_AT 2016-07-31-10-00-00
 
 #
 # Please execute cd install && curl -O http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz to Download binary files if you prefer
@@ -86,6 +86,8 @@ RUN cd jdk8 && \
 ENV ANACONDA_SHA  4f5c95feb0e7efeadd3d348dcef117d7787c799f24b0429e45017008f3534e55
 ENV ANACONDA_FILE Anaconda3-4.1.1-Linux-x86_64.sh
 
+# RUN yum install -y bzip2
+
 RUN cd anaconda-3-4-1 && \
     cat xaa xab xac xad xae xaf xag xah xai > ${ANACONDA_FILE} && \
     echo "••• `date` - Verify the Checksum for ${ANACONDA_FILE} " && \
@@ -93,9 +95,50 @@ RUN cd anaconda-3-4-1 && \
     echo "${ANACONDA_SHA}  ${ANACONDA_FILE}" && \
     echo "${MY_CHECKSUM}" && \
     rm -rf xaa xab xac xad xae xaf xag xah xai && \
-    echo "••• `date` - Please, Install ${ANACONDA_FILE} on /usr/local/anaconda3 !" && \
-    echo "••• `date` - and then run Jupyter this way : jupyter notebook --port 9999"
+    /bin/bash ${ANACONDA_FILE} -b -p /usr/local/anaconda3 && \
+    rm ${ANACONDA_FILE}
 
-RUN yum install -y bzip2
+RUN echo "••• `date` - Anaconda3 was installed by ${ANACONDA_FILE} on /usr/local/anaconda3 !" && \
+    echo "••• `date` - You can run Jupyter : jupyter notebook --no-browser --port 9999"
 
-CMD ["/bin/bash"]
+# RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+#     wget --quiet https://repo.continuum.io/archive/Anaconda3-4.1.1-Linux-x86_64.sh -O ~/anaconda.sh && \
+#     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+#     rm ~/anaconda.sh
+
+ENV TINI_VERSION 0.9.0
+# RUN TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
+#     echo "TINI_VERSION = ${TINI_VERSION}"
+
+# yum install -y curl grep sed && \
+    
+RUN ls -lat tini-rpm && \
+    cd tini-rpm && \
+    yum install -y tini_${TINI_VERSION}.rpm && \
+    cd .. && \
+    rm -rf tini-rpm && \
+    yum clean all
+
+RUN cd maven3 && \
+    tar xzf apache-maven-3.3.9-bin.tar.gz && \
+    chown root:root -R apache-maven-3.3.9 && \
+    mv apache-maven-3.3.9 /usr/local/maven3 && \
+    rm -rf apache-maven-3.3.9-bin.tar.gz
+
+ENV PATH /usr/local/maven3/bin:${PATH}
+
+RUN mkdir -p /desenv/java && mvn -v
+
+COPY test /desenv/java/
+
+WORKDIR /desenv/java
+
+RUN cd myspark && mvn install
+
+EXPOSE 9999
+EXPOSE 8080
+
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+
+CMD [ "/bin/bash" ]
+
