@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+docker run -i -t -h my-spark -p 8080:8080 -p 9999:9999 --rm parana/spark bash
+

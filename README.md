@@ -176,12 +176,13 @@ also do this interactively by connecting `bin/spark-shell` to a cluster, as
 described in the 
 [programming guide](http://spark.apache.org/docs/latest/programming-guide.html).
 
-#### Self-Contained Applications
+#### Self-Contained Java Applications
 
 Suppose we wish to write a self-contained application using the Spark API. We 
 will walk through a simple application in Java (with Maven).
 
-This example will use Maven to compile an application JAR, but any similar build system will work.
+This example will use Maven to compile an application JAR, but any similar 
+build system will work.
 
 We’ll create a very simple Spark application, `SimpleApp.java`:
 
@@ -215,13 +216,14 @@ public class SimpleApp {
 
 This program just counts the number of lines containing ‘a’ and the number 
 containing ‘b’ in a text file. Note that you’ll need to replace 
-/usr/local/spark with the location where Spark is installed (if you will)
-run this code in another environment. 
+/usr/local/spark with the location where Spark is installed (if you will
+run this code in another environment). 
 
 As with the Scala example, we initialize a SparkContext, though we use the 
-special JavaSparkContext class to get a Java-friendly one. We also create 
-**RDDs** (represented by JavaRDD) and run transformations on them. Finally, 
-we pass functions to Spark by creating classes that extend 
+special JavaSparkContext class to get a Java-friendly one. 
+
+We also create **RDDs** (represented by JavaRDD) and run transformations on 
+them. Finally, we pass functions to Spark by creating classes that extend 
 spark.api.java.function.Function. The Spark programming guide describes these 
 differences in more detail.
 
@@ -258,41 +260,99 @@ dependency.
 </project>
 ```
 
-Now you can run this Java Program :
+This project is already created at /desenv/java/myspark, so now you can run 
+this Java Program using :
 
 ```bash
+cd /desenv/java/myspark
 /usr/local/spark/bin/spark-submit \
     --class "spark.SimpleApp" \
     --master local[4] \
     target/myspark-1.0-SNAPSHOT.jar 2> /dev/null 
 ```
 
+See `Dockerfile` for details about where this files are located in host 
+computer. For example:
+
+```bash
+COPY test /desenv/java/
+```
+
+
 #### Where to Go from Here
 
 Congratulations on running your first Spark application!
 
-For an in-depth overview of the API, start with the Spark programming guide, 
-or see “Programming Guides” menu for other components.
+For an in-depth overview of the API, start with the 
+[Spark programming guide](http://spark.apache.org/docs/latest/programming-guide.html), 
+or see “Programming Guides” menu for other components like : **MLlib** 
+for _Machine Learning_ API.
 
 For running applications on a cluster, head to the deployment overview.
 
 Finally, Spark includes several samples in the examples directory (Scala, 
 Java, Python, R). You can run them as follows:
 
-# For Scala and Java, use run-example:
 
 ```bash
-./bin/run-example SparkPi
+# For Scala and Java, use run-example:
+/usr/local/spark/bin/run-example SparkPi
 ```
+
+This shell `run-example` delegate the execution to 
+`/usr/local/spark/bin/spark-class` which invoke the class
+`org.apache.spark.deploy.SparkSubmit` passing all parameters.
+
+In the other hand this shell `spark-class` ensure the environment is set 
+running load-spark-env.sh, find Spark jars, set the LAUNCH_CLASSPATH variable
+and build the command to be executed. Then start JVM to run the command.
+
+In this case of running `SparkPi` the command build is something like this:
+
+```bash
+/opt/jdk1.8.0_91/bin/java \
+    -cp /usr/local/spark/conf/:/usr/local/spark/jars/* \
+    -Xmx1g \
+    org.apache.spark.deploy.SparkSubmit \
+    --jars /usr/local/spark/examples/jars/scopt_2.11-3.3.0.jar,/usr/local/spark/examples/jars/spark-examples_2.11-2.0.0.jar \
+    --class org.apache.spark.examples.SparkPi spark-internal
+
+```
+
+So, you can use `/desenv/java/run-example.sh SparkPi` to run SparkPi example.
+ 
+
+#### Launching Spark jobs from Java or Scala
+
+The org.apache.spark.launcher package provides classes for launching Spark 
+jobs as child processes using a simple Java API.
+
+#### Unit Testing
+
+Spark is friendly to unit testing with any popular unit test framework. 
+Simply create a SparkContext in your test with the master URL set to local, 
+run your operations, and then call SparkContext.stop() to tear it down. 
+Make sure you stop the context within a finally block or the test 
+framework’s tearDown method, as Spark does not support two contexts 
+running concurrently in the same program.
 
 ### Using Jupyter Notebook
 
-This Container have a Python 3.5.2 instalation provided by Continuum Analytics, Inc.
+This Container have a Python 3.5.2 instalation provided by 
+Continuum Analytics, Inc.
 
-You can start a Jupyter Notebook server and interact with Anaconda via your browser:
+You can start a Jupyter Notebook server and interact with Anaconda via your 
+browser:
 
 ```
 docker run -i -t -p 8888:8888 continuumio/anaconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
 ```
 
-You can then view the Jupyter Notebook by opening http://localhost:8888 in your browser, or http://<DOCKER-MACHINE-IP>:8888 if you are using a Docker Machine VM.
+You can then view the Jupyter Notebook by opening http://localhost:8888 in 
+your browser, or `http://<DOCKER-MACHINE-IP>:8888` if you are using a Docker 
+Machine VM on macOS or Windows Operating Systems. `<DOCKER-MACHINE-IP>` is 
+`localhost` if you are using the recently released version of Docker for macOS
+
+Jupyter Notebook is a very useful tool if you need to create a live document with 
+running code inside, much like Swift Playground avaiable on macOS / XCode.
+
