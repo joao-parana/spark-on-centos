@@ -168,6 +168,7 @@ res7: linesWithSpark.type = MapPartitionsRDD[2] at filter at <console>:27
 ```scala
 linesWithSpark.count()
 res8: Long = 19
+```
 
 It may seem silly to use Spark to explore and cache a 100-line text file. The 
 interesting part is that these same functions can be used on very large data 
@@ -320,7 +321,7 @@ In this case of running `SparkPi` the command build is something like this:
 ```
 
 So, you can use `/desenv/java/run-example.sh SparkPi` to run SparkPi example.
- 
+
 
 #### Launching Spark jobs from Java or Scala
 
@@ -335,6 +336,19 @@ run your operations, and then call SparkContext.stop() to tear it down.
 Make sure you stop the context within a finally block or the test 
 framework’s tearDown method, as Spark does not support two contexts 
 running concurrently in the same program.
+
+
+#### Persistence with Apache Hive
+
+Spark use Apache Hive SQL Persistence layer. 
+
+The Apache Hive data warehouse software facilitates reading, writing, and 
+managing large datasets residing in distributed storage using SQL. 
+Hive is built on top of Apache Hadoop.
+
+See [distributed sql engine](http://spark.apache.org/docs/latest/sql-programming-guide.html#distributed-sql-engine)
+for details.
+
 
 ### Using Jupyter Notebook
 
