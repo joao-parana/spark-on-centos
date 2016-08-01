@@ -4,23 +4,15 @@ FROM parana/centos7
 
 MAINTAINER "João Antonio Ferreira" <joao.parana@gmail.com>`
 
-ENV REFRESHED_AT 2016-07-31-10-00-00
+ENV REFRESHED_AT 2016-08-01-11-00-00
 
 #
-# Please execute cd install && curl -O http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz to Download binary files if you prefer
+# If you prefer download file for yourself, please execute: cd install && curl -O http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz to Download binary files 
 #
 
 # Set environment
 ENV JAVA_HOME /opt/jdk1.8.0_91
-
-# ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH ${JAVA_HOME}/bin:/usr/local/anaconda3/bin:${PATH}:.
-
-# ENV TOMCAT_MAJOR_VERSION 8
-# ENV TOMCAT_VERSION 8.0.36
-# ENV TOMCAT_SITE    http://archive.apache.org/dist/tomcat
-# ENV TOMCAT_TGZ_URL ${TOMCAT_SITE}/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
-# ENV TOMCAT_FILE    apache-tomcat-${TOMCAT_VERSION}.tar.gz
+ENV PATH ${JAVA_HOME}/bin:${PATH}:.
 
 # Java Version  1.8.0_91-b14
 ENV JAVA_VERSION_MAJOR 8
@@ -31,10 +23,6 @@ ENV ORACLE_SITE        download.oracle.com/otn-pub/java/jdk
 ENV JAVA_FILE          ${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz
 
 ENV JAVA_OPTS="-Xms512m -Xmx1024m"
-
-# ENV ORACLE_HOME /u01/app/oracle/product/11.2.0/xe
-# ENV ORACLE_SID  XE
-# ENV PATH        $ORACLE_HOME/bin:$PATH
 
 COPY install /tmp/
 # RUN find /tmp -type d | sort 
@@ -83,35 +71,10 @@ RUN cd jdk8 && \
            /opt/jdk/jre/lib/amd64/libjavafx*.so \
            /opt/jdk/jre/lib/amd64/libjfx*.so
 
-ENV ANACONDA_SHA  4f5c95feb0e7efeadd3d348dcef117d7787c799f24b0429e45017008f3534e55
-ENV ANACONDA_FILE Anaconda3-4.1.1-Linux-x86_64.sh
-
-# RUN yum install -y bzip2
-
-RUN cd anaconda-3-4-1 && \
-    cat xaa xab xac xad xae xaf xag xah xai > ${ANACONDA_FILE} && \
-    echo "••• `date` - Verify the Checksum for ${ANACONDA_FILE} " && \
-    MY_CHECKSUM=`sha256sum ${ANACONDA_FILE}` && \
-    echo "${ANACONDA_SHA}  ${ANACONDA_FILE}" && \
-    echo "${MY_CHECKSUM}" && \
-    rm -rf xaa xab xac xad xae xaf xag xah xai && \
-    /bin/bash ${ANACONDA_FILE} -b -p /usr/local/anaconda3 && \
-    rm ${ANACONDA_FILE}
-
-RUN echo "••• `date` - Anaconda3 was installed by ${ANACONDA_FILE} on /usr/local/anaconda3 !" && \
-    echo "••• `date` - You can run Jupyter : jupyter notebook --no-browser --port 9999"
-
-# RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-#     wget --quiet https://repo.continuum.io/archive/Anaconda3-4.1.1-Linux-x86_64.sh -O ~/anaconda.sh && \
-#     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-#     rm ~/anaconda.sh
-
 ENV TINI_VERSION 0.9.0
 # RUN TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
 #     echo "TINI_VERSION = ${TINI_VERSION}"
-
-# yum install -y curl grep sed && \
-    
+   
 RUN ls -lat tini-rpm && \
     cd tini-rpm && \
     yum install -y tini_${TINI_VERSION}.rpm && \
@@ -135,10 +98,8 @@ WORKDIR /desenv/java
 
 RUN cd myspark && mvn install
 
-EXPOSE 9999
 EXPOSE 8080
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
 CMD [ "/bin/bash" ]
-

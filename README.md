@@ -1,8 +1,8 @@
-# spark
+# Spark
 
-Cria a Imagem Docker parana/spark
+Create the `parana/spark` Docker Image 
 
-This **Dockerfile** is a [trusted build](https://hub.docker.com/r/parana/spark/) of [Docker Registry](https://hub.docker.com/).
+This **Dockerfile** is a [Automated build](https://hub.docker.com/r/parana/spark/) of [Docker Registry](https://hub.docker.com/).
 
 ## Building on boot2docker & Docker Machine
 
@@ -44,13 +44,11 @@ cat /usr/local/spark/logs/* | grep port
 # Test the master’s web UI
 sleep 5
 curl http://localhost:8080
-# To run Jupyter Notebook, use the following command:
-jupyter notebook --no-browser --port 9999 &
-sleep 10
-curl http://localhost:9999
 ```
 
 ### Using Spark
+
+> Most of this content is from Spark Documentation for 2.0.0 version avaiable in [http://spark.apache.org/docs/2.0.0/](http://spark.apache.org/docs/2.0.0/), but properly organized for Data Science professionals.
 
 Open on WEB Browser in host computer
 
@@ -337,6 +335,72 @@ Make sure you stop the context within a finally block or the test
 framework’s tearDown method, as Spark does not support two contexts 
 running concurrently in the same program.
 
+#### Spark SQL 
+
+Spark SQL is a Spark module for structured data processing. Unlike the basic 
+Spark RDD API, the interfaces provided by Spark SQL provide Spark with more 
+information about the structure of both the data and the computation being 
+performed. Internally, Spark SQL uses this extra information to perform 
+**extra optimizations**. There are several ways to interact with Spark SQL 
+including SQL and the Dataset API. When computing a result the same execution 
+engine is used, independent of which API/language you are using to express 
+the computation. This unification means that developers can easily switch 
+back and forth between different APIs based on which provides the most 
+natural way to express a given transformation.
+
+One use of Spark SQL is to execute SQL queries. Spark SQL can also be used 
+to read data from an existing Apache Hive installation (see section bellow). 
+When running SQL from within another programming language, like Java, the 
+results will be returned as a Dataset/DataFrame. You can also interact with 
+the SQL interface using the command-line or over JDBC/ODBC.
+
+##### Running SQL Queries Programmatically
+
+The sql function on a SparkSession enables applications to run SQL queries 
+programmatically and returns the result as a Dataset<Row>.
+
+```java
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+
+// Start with JSON Dataset
+Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
+// Print the schema in a tree format
+df.printSchema();
+// root
+// |-- age: long (nullable = true)
+// |-- name: string (nullable = true)
+
+// Now the same Schema on SQL Database.
+
+// Register the DataFrame as a SQL temporary view
+df.createOrReplaceTempView("people");
+
+Dataset<Row> sqlDF = spark.sql("SELECT * FROM people");
+sqlDF.show();
+
+// +----+-------+
+// | age|   name|
+// +----+-------+
+// |null|Michael|
+// |  30|   Andy|
+// |  19| Justin|
+// +----+-------+
+
+// Count people by age
+sqlDF.groupBy("age").count().show();
+// +----+-----+
+// | age|count|
+// +----+-----+
+// |  19|    1|
+// |null|    1|
+// |  30|    1|
+// +----+-----+
+
+```
+
+Find full example code at "examples/src/main/java/org/apache/spark/examples/sql/JavaSparkSQLExample.java" in the Spark Github repo.
+
 
 #### Persistence with Apache Hive
 
@@ -348,25 +412,3 @@ Hive is built on top of Apache Hadoop.
 
 See [distributed sql engine](http://spark.apache.org/docs/latest/sql-programming-guide.html#distributed-sql-engine)
 for details.
-
-
-### Using Jupyter Notebook
-
-This Container have a Python 3.5.2 instalation provided by 
-Continuum Analytics, Inc.
-
-You can start a Jupyter Notebook server and interact with Anaconda via your 
-browser:
-
-```
-docker run -i -t -p 8888:8888 continuumio/anaconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
-```
-
-You can then view the Jupyter Notebook by opening http://localhost:8888 in 
-your browser, or `http://<DOCKER-MACHINE-IP>:8888` if you are using a Docker 
-Machine VM on macOS or Windows Operating Systems. `<DOCKER-MACHINE-IP>` is 
-`localhost` if you are using the recently released version of Docker for macOS
-
-Jupyter Notebook is a very useful tool if you need to create a live document with 
-running code inside, much like Swift Playground avaiable on macOS / XCode.
-
