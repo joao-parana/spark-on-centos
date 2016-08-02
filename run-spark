@@ -4,5 +4,5 @@ set -e
 
 docker run -i -t -h my-spark --rm \
        -p 8080:8080 \
-       -v$PWD/m2-repo:/root/.m2/repository 
+       #  -v $PWD/m2-repo:/root/.m2/repository \
        parana/spark bash
