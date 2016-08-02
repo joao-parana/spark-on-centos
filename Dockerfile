@@ -96,7 +96,9 @@ COPY test /desenv/java/
 
 WORKDIR /desenv/java
 
-RUN cd myspark && mvn install
+# VOLUME /root/.m2/repository
+COPY m2-repo /root/.m2/repository
+RUN cd myspark && mvn clean compile test package install
 
 EXPOSE 8080
 

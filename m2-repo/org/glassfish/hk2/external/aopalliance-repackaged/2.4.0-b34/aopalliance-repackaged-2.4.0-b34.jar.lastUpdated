@@ -1,0 +1,7 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Aug 01 21:39:08 UTC 2016
+http\://repository.springsource.com/maven/bundles/external/.lastUpdated=1470087544214
+https\://maven.java.net/content/repositories/releases/.lastUpdated=1470087548193
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1470087520049
+http\://repository.springsource.com/maven/bundles/external/.error=
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact org.glassfish.hk2.external\:aopalliance-repackaged\:jar\:2.4.0-b34 from/to central (https\://repo.maven.apache.org/maven2)\: repo.maven.apache.org

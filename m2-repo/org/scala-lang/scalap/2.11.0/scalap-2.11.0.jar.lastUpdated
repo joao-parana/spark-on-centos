@@ -1,0 +1,7 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Aug 01 21:39:02 UTC 2016
+https\://oss.sonatype.org/content/repositories/releases/.lastUpdated=1470087542499
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1470087519972
+https\://oss.sonatype.org/content/repositories/snapshots/.lastUpdated=1470087525053
+https\://oss.sonatype.org/content/repositories/snapshots/.error=
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact org.scala-lang\:scalap\:jar\:2.11.0 from/to central (https\://repo.maven.apache.org/maven2)\: repo.maven.apache.org
