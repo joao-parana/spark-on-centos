@@ -337,6 +337,135 @@ Make sure you stop the context within a finally block or the test
 framework’s tearDown method, as Spark does not support two contexts 
 running concurrently in the same program.
 
+Some examples:
+
+```java
+package spark;
+
+import static org.junit.Assert.*;
+import java.io.IOException;
+import java.util.*;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.*;
+import org.junit.*;
+
+public class SimpleTest {
+  private JavaSparkContext sparkCtx;
+
+  @Before
+  public void init() throws IllegalArgumentException, IOException {
+    // ctxtBuilder = new ContextBuilder(tempFolder);
+    SparkConf conf = new SparkConf();
+    conf.setMaster("local[2]");
+    conf.setAppName("junit");
+    this.sparkCtx = new JavaSparkContext(conf);
+  }
+
+  @Test
+  public void testSimpleRdd() {
+    final List<Integer> nums = new ArrayList<Integer>();
+    nums.add(3);
+    nums.add(4);
+    nums.add(2);
+    JavaRDD<Integer> rdd = this.sparkCtx.parallelize(nums, 1);
+    assertEquals(3, rdd.count());
+  }
+}
+```
+
+Using SparkSession (please, add `spark-sql_2.11` dependency in your pom)
+
+```java
+package spark;
+
+import static org.apache.spark.sql.functions.*;
+import java.io.IOException;
+import java.util.List;
+import org.apache.spark.sql.*;
+import org.junit.*;
+
+public class CsvTest {
+  private SparkSession sparkSession;
+
+  @Before
+  public void init() throws IllegalArgumentException, IOException {
+    this.sparkSession = SparkSession.builder().master("local").appName("spark session example").getOrCreate();
+  }
+
+  @Test
+  public void tesCsv() {
+    Dataset<Row> dataset = this.sparkSession.read().format("csv").option("header", "true").option("", "")
+        .load("/tmp/data.csv");
+    
+    List<Row> l = dataset.collectAsList();
+    String columns[] = { "Nome", "Idade" };
+    for (Row row : l) {
+      int s = row.length();
+      for (int i = 0; i < s; i++) {
+        System.out.println(columns[i] + " : " + row.getString(i));
+      }
+    }
+    dataset.printSchema();
+  }
+}
+```
+
+In this examples I'm using some Functions available for DataFrame. 
+See this link [https://spark.apache.org/docs/2.0.0/api/java/org/apache/spark/sql/functions.html](https://spark.apache.org/docs/2.0.0/api/java/org/apache/spark/sql/functions.html) 
+for details.
+
+
+```java
+package spark;
+
+import static org.apache.spark.sql.functions.*;
+import java.io.IOException;
+import java.util.List;
+import org.apache.spark.sql.*;
+import org.junit.*;
+
+public class CsvTest2 {
+  private SparkSession sparkSession;
+
+  @Before
+  public void init() throws IllegalArgumentException, IOException {
+    this.sparkSession = SparkSession.builder().master("local").appName("spark session example").getOrCreate();
+  }
+
+  @Test
+  public void tesCsv() {
+    Dataset<Row> dataset = this.sparkSession.read().format("csv").option("header", "true").option("", "")
+        .load("/tmp/data2.csv");
+    
+    List<Row> l = dataset.collectAsList();
+    // String title[] = { "Nome", "Nota" };
+    for (Row row : l) {
+      int s = row.length();
+      for (int i = 0; i < s; i++) {
+        // System.out.println(columns[i] + " : " + row.getString(i));
+      }
+    }
+    String title[] = { "Nome", "stdDev(Nota)" };
+    dataset.printSchema();
+    Dataset<Row> stddev = dataset.groupBy("Nome").agg(stddev_pop("Nota"));
+    System.out.println(stddev);
+    l = stddev.collectAsList();
+    for (Row row : l) {
+      int s = row.length();
+      for (int i = 0; i < s; i++) {
+        Object value;
+        try {
+          value = row.getDouble(i);
+        } catch (Exception e) {
+          value = row.getString(i);
+        }
+        System.out.println(title[i] + " : " + value);
+      }
+    }
+  }
+}
+```
+
 #### Spark SQL 
 
 Spark SQL is a Spark module for structured data processing. Unlike the basic 
@@ -414,3 +543,37 @@ Hive is built on top of Apache Hadoop.
 
 See [distributed sql engine](http://spark.apache.org/docs/latest/sql-programming-guide.html#distributed-sql-engine)
 for details.
+
+#### More on Spark 2.0
+
+[http://blog.madhukaraphatak.com/categories/spark-two](http://blog.madhukaraphatak.com/categories/spark-two/)
+
+To convert the code from **Scala** to **Java** use this **pom.xml** dependencies :
+
+```xml
+  <dependencies>
+    <dependency> <!-- Spark dependency -->
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.11</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-sql_2.11</artifactId>
+    <version>2.0.0</version>
+  </dependency>
+    <!-- 
+    Others useful dependencies:
+    http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.spark%22%20AND%20v%3A%222.0.0%22
+    
+    spark-mllib_2.11
+    spark-streaming_2.11
+    spark-hive_2.11
+    -->
+    <dependency> <!-- Hadoop dependency -->
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>2.7.2</version>
+    </dependency>
+    . . . 
+```

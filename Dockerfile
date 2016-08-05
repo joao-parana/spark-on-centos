@@ -101,6 +101,7 @@ COPY m2-repo /root/.m2/repository
 RUN cd myspark && mvn clean compile test package install
 
 EXPOSE 8080
+EXPOSE 7077
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
