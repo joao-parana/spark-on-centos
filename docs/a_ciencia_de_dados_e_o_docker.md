@@ -1,6 +1,6 @@
 # A Ciência de Dados e o Docker
 
->**Open Data Science** is not a single technology, but a revolution within the data science community. Open Data Science is an inclusive movement that makes open source tools for data science - data, analytics and computation - easily work together as a connected ecosystem.
+> **Open Data Science** não é uma única tecnologia, mas uma revolução dentro da comunidade científica de dados. *Open Data Science* é um movimento **inclusivo** que produz ferramentas de *código aberto* para a ciência de dados permitindo que se trabalhe facilmente com um ecossistema conectado de Applications Servers, Frameworks e APIs.
 
 ## As promessas da OPEN DATA SCIENCE
 
@@ -45,6 +45,33 @@ As ferramentas disponíveis na atualidade permitem usar toda o poder da colabora
 ## A necessidade de Processamento Paralelo
 
 Ciência de dados requer processamento de alto desempenho devido aos requisitos impostos pelos algoritimos de alta complexidade (polinomial e exponencial). Além disso o grande volume de dados impõem requisitos específicos de persistência em termos de eficiência no armazenamento e na recuperação eficiente dos dados. Desta forma o ambiente operacional indicado para run-time nos leva a processamento distribuido em Clusters, Grid, ou Nuvens (privadas ou públicas). Existe uma grande diversidade de plataformas existentes para ambientes de processamento de alto desempenho e muitas delas distribuidas em **Código Aberto**. Assim o Processamento Paralelo ganha muita importância neste contexto e o **Docker Swarm** permite a criação dessa infraestrutura que permite solução agnóstica ao tipo de infraestrutura de TI a ser utilizada.
+
+
+## Ferramentas básicas 
+
+Como ferramentas básicas para uso diário de um **Cientista de Dados** posso citar:
+
+* Conta no Github
+* Conta no Docker HUB
+* Ambiente configurado para **Apache Spark**
+* Ambiente configurado para **R** (opcional)
+
+**Por que é necessário uma conta no _Github_ ?** 
+
+O _Github_ fornece um serviço de edição colaborativa e compartilhamento de código de qualidade excepcional. Na versão gratis do serviço é possível criar uma número ilimitado de repositórios, cada um contendo um ou mais projetos de software. É possivel também criar organizações e associar pessoas a elas. Essas pessoas podem colaborar na criação de código de acesso público. O _Github_ suporta também funcionalidades de gerenciamento de versão de código, Páginas Wiki para documentação, Gerenciamento de incidentes e integração com Serviços de Terceiros via WebHook.
+
+**Por que é necessário uma conta no _Docker HUB_ ?** 
+
+O _Docker HUB_ fornece um serviço de construção automatizada de Imagens para maquinas virtuais Linux de grande eficiência. Além disso o _Docker HUB_ armazena estas imagens e disponibiliza de forma segura e colaborativa usando um modelo parecido com o Github. O _Docker HUB_ se integra com o _Github_ e _Bitbucket_ provendo _Automated Build_ de imagens facilitando muito o trabalho de criação de ambientes completos de TI. Para mais detalhes veja as próximas sessões desse documento. 
+
+**E quanto ao _Apache Spark_ ?** 
+
+O _Apache Spark_ é um _Framework_ de computação em cluster de código aberto. O _Spark_ foi desenvolvido originalmente na Universidade da Califórnia - Berkeley. A base de código do foi doado à Apache Software Foundation, que tem mantido desde então. O _Spark_ fornece uma interface para programação de _Clusters_ com paralelismo de dados implícita e tolerância a falhas Veja uma [Visão Geral](https://en.wikipedia.org/wiki/Apache_Spark#Overview) sobre o _Spark_ no site [https://en.wikipedia.org](https://en.wikipedia.org/wiki/Apache_Spark#Overview). 
+
+**A linguagem R**
+
+*R* é uma linguagem e também um ambiente de desenvolvimento integrado para cálculos estatísticos e apresentação de gráficos. Instalando o **R Studio** você poderá usar o **R Markdown** - [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com)
+
 
 
 

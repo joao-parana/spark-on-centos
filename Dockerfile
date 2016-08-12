@@ -4,7 +4,7 @@ FROM parana/centos7
 
 MAINTAINER "João Antonio Ferreira" <joao.parana@gmail.com>`
 
-ENV REFRESHED_AT 2016-08-01-11-00-00
+ENV REFRESHED_AT 2016-08-12
 
 #
 # If you prefer download file for yourself, please execute: cd install && curl -O http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz to Download binary files 
@@ -98,7 +98,9 @@ WORKDIR /desenv/java
 
 # VOLUME /root/.m2/repository
 COPY m2-repo /root/.m2/repository
-RUN cd myspark && mvn clean compile test package install
+# test requires large memory configured on JVM
+# RUN cd myspark && mvn clean compile test package install
+RUN cd myspark && mvn clean compile package install -Dmaven.test.skip=true
 
 EXPOSE 8080
 EXPOSE 7077
