@@ -79,10 +79,12 @@ InputFormats (such as HDFS files) or by transforming other RDDs. Let’s make
 a new RDD from the text of the README file in the Spark source directory:
 
 ```scala
-val textFile = sc.textFile("README.md")
-textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at <console>:25
+val textFile = sc.textFile("../README.md")
 ```
 
+```
+textFile: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[1] at textFile at <console>:25
+```
 RDDs have actions, which return values, and transformations, which return 
 pointers to new RDDs. Let’s start with a few actions:
 
