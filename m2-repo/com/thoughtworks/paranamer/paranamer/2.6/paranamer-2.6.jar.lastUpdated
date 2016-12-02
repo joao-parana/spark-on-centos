@@ -1,7 +1,0 @@
-#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
-#Mon Aug 01 21:39:02 UTC 2016
-https\://oss.sonatype.org/content/repositories/releases/.lastUpdated=1470087542479
-@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1470087519962
-https\://oss.sonatype.org/content/repositories/snapshots/.lastUpdated=1470087525037
-https\://oss.sonatype.org/content/repositories/snapshots/.error=
-https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact com.thoughtworks.paranamer\:paranamer\:jar\:2.6 from/to central (https\://repo.maven.apache.org/maven2)\: repo.maven.apache.org
