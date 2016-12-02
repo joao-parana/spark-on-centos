@@ -50,7 +50,7 @@ curl http://localhost:8080
 
 ### Using Spark
 
-> Most of this content is from Spark Documentation for 2.0.0 version avaiable in [http://spark.apache.org/docs/2.0.0/](http://spark.apache.org/docs/2.0.0/), but properly organized for Data Science professionals.
+> Most of this content is from Spark Documentation for 2.0.2 version avaiable in [http://spark.apache.org/docs/2.0.2/](http://spark.apache.org/docs/2.0.2/), but properly organized for Data Science professionals.
 
 Open on WEB Browser in host computer
 
@@ -251,7 +251,7 @@ dependency.
     <dependency> <!-- Spark dependency -->
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.11</artifactId>
-      <version>2.0.0</version>
+      <version>2.0.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -317,7 +317,7 @@ In this case of running `SparkPi` the command build is something like this:
     -cp /usr/local/spark/conf/:/usr/local/spark/jars/* \
     -Xmx1g \
     org.apache.spark.deploy.SparkSubmit \
-    --jars /usr/local/spark/examples/jars/scopt_2.11-3.3.0.jar,/usr/local/spark/examples/jars/spark-examples_2.11-2.0.0.jar \
+    --jars /usr/local/spark/examples/jars/scopt_2.11-3.3.0.jar,/usr/local/spark/examples/jars/spark-examples_2.11-2.0.2.jar \
     --class org.apache.spark.examples.SparkPi spark-internal
 
 ```
@@ -413,7 +413,7 @@ public class CsvTest {
 ```
 
 In this examples I'm using some Functions available for DataFrame. 
-See this link [https://spark.apache.org/docs/2.0.0/api/java/org/apache/spark/sql/functions.html](https://spark.apache.org/docs/2.0.0/api/java/org/apache/spark/sql/functions.html) 
+See this link [https://spark.apache.org/docs/2.0.2/api/java/org/apache/spark/sql/functions.html](https://spark.apache.org/docs/2.0.2/api/java/org/apache/spark/sql/functions.html) 
 for details.
 
 
@@ -557,12 +557,12 @@ To convert the code from **Scala** to **Java** use this **pom.xml** dependencies
     <dependency> <!-- Spark dependency -->
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.11</artifactId>
-      <version>2.0.0</version>
+      <version>2.0.2</version>
     </dependency>
     <dependency>
     <groupId>org.apache.spark</groupId>
     <artifactId>spark-sql_2.11</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.2</version>
   </dependency>
     <!-- 
     Others useful dependencies:
@@ -575,7 +575,30 @@ To convert the code from **Scala** to **Java** use this **pom.xml** dependencies
     <dependency> <!-- Hadoop dependency -->
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-client</artifactId>
-      <version>2.7.2</version>
+      <version>2.7.3</version>
     </dependency>
     . . . 
 ```
+
+## How to build
+
+If you plan to change the Spark version on the pom.xml file you will need
+to re-create the `m2-repo` directory again. To do this use the command 
+below to start the container.
+
+```bash
+mv m2-repo m2-repo-old
+
+docker run -i -t -h my-spark --rm \
+       --name my-spark \
+       -v $PWD/m2-repo:/root/.m2/repository \
+       -p 8080:8080 \
+       -p 7077:7077 \
+       parana/spark bash
+
+rm -rf m2-repo-old
+```
+
+Doing this m2-repo will be updated on Host and a next build will be much
+faster because it will use the artifacts in the **Local Maven Repository**
+and will not need to download again.
