@@ -1,0 +1,1 @@
+echo 'digraph G {node [shape=box,style=filled,color=".3 .3 1.0"]; "Apache Spark ecosystem" [shape=box,style=filled,color=".7 .3 1.0"]; SparkSQL -> "Apache Spark ecosystem"; GraphX -> "Apache Spark ecosystem"; SparkMLlib -> "Apache Spark ecosystem"; SparkStreaming -> "Apache Spark ecosystem";}'  | dot -Tpng > spark-components.png ; open spark-components.png
