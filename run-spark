@@ -4,6 +4,7 @@ set -e
 
 docker run -i -t -h my-spark --rm \
        --name my-spark \
+       -p 8888:8888 \
        -p 8080:8080 \
        -p 7077:7077 \
        -h spark.local \

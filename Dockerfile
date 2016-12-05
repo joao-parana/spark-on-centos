@@ -79,7 +79,7 @@ RUN tar xzf apache-maven-3.3.9-bin.tar.gz && \
     mv apache-maven-3.3.9 /usr/local/maven3 && \
     rm -rf apache-maven-3.3.9-bin.tar.gz
 
-ENV PATH /usr/local/maven3/bin:/usr/local/miniconda/bin:${PATH}
+ENV PATH /usr/local/maven3/bin:/usr/local/spark/bin:/usr/local/miniconda/bin:${PATH}
 
 RUN bash /tmp/Miniconda2-latest-Linux-x86_64.sh -b -p /usr/local/miniconda && \
     conda install -y scikit-learn && \
@@ -89,7 +89,7 @@ RUN conda install -y jupyter
 
 RUN curl -L -o coursier https://git.io/vgvpD && chmod +x coursier && mv coursier /usr/local/bin && coursier --help
 
-RUN mv /tmp/jupyter-scala /usr/local/bin && /usr/local/bin/jupiter-scala
+RUN ls -la /tmp/* && /tmp/jupyter-scala && mv /tmp/jupyter-scala /usr/local/bin/
 
 RUN mkdir -p /desenv/java && mvn -v
 
