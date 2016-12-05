@@ -87,6 +87,10 @@ RUN bash /tmp/Miniconda2-latest-Linux-x86_64.sh -b -p /usr/local/miniconda && \
 
 RUN conda install -y jupyter
 
+RUN curl -L -o coursier https://git.io/vgvpD && chmod +x coursier && mv coursier /usr/local/bin && coursier --help
+
+RUN mv /tmp/jupyter-scala /usr/local/bin && /usr/local/bin/jupiter-scala
+
 RUN mkdir -p /desenv/java && mvn -v
 
 COPY test /desenv/java/
@@ -100,9 +104,16 @@ COPY m2-repo /root/.m2/repository
 # RUN cd myspark && mvn clean compile test package install
 RUN cd myspark && mvn clean compile package install -Dmaven.test.skip=true
 
+# Spark
 EXPOSE 8080
 EXPOSE 7077
+# Jupyter Notebook
+EXPOSE 8888
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
+RUN echo "Execute: jupyter notebook --no-browser --ip spark.local"
+# open http://spark.local:8888/
+
 CMD [ "/bin/bash" ]
+

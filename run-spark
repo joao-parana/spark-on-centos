@@ -6,6 +6,7 @@ docker run -i -t -h my-spark --rm \
        --name my-spark \
        -p 8080:8080 \
        -p 7077:7077 \
+       $1 $2 $3 $4  \
        parana/spark bash
 
 #  you can add  -v $PWD/m2-repo:/root/.m2/repository to use the local repository from Host.
