@@ -6,6 +6,7 @@ docker run -i -t -h my-spark --rm \
        --name my-spark \
        -p 8080:8080 \
        -p 7077:7077 \
+       -h spark.local \
        $1 $2 $3 $4  \
        parana/spark bash
 
