@@ -4,6 +4,11 @@ Create the `parana/spark` Docker Image
 
 This **Dockerfile** is a [Automated build](https://hub.docker.com/r/parana/spark/) of [Docker Registry](https://hub.docker.com/).
 
+## Spark Components
+
+![Spark Components](assets/img/spark-components.png)
+
+
 ## Building on boot2docker & Docker Machine
 
 You need to configure swap space in boot2docker / Docker Machine prior the build:
