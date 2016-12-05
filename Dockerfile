@@ -79,7 +79,13 @@ RUN tar xzf apache-maven-3.3.9-bin.tar.gz && \
     mv apache-maven-3.3.9 /usr/local/maven3 && \
     rm -rf apache-maven-3.3.9-bin.tar.gz
 
-ENV PATH /usr/local/maven3/bin:${PATH}
+ENV PATH /usr/local/maven3/bin:/usr/local/miniconda/bin:${PATH}
+
+RUN bash /tmp/Miniconda2-latest-Linux-x86_64.sh -b -p /usr/local/miniconda && \
+    conda install -y scikit-learn && \
+    conda install -y cython
+
+RUN conda install -y jupyter
 
 RUN mkdir -p /desenv/java && mvn -v
 
