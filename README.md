@@ -607,3 +607,20 @@ rm -rf m2-repo-old
 Doing this m2-repo will be updated on Host and a next build will be much
 faster because it will use the artifacts in the **Local Maven Repository**
 and will not need to download again.
+
+## Using Jupyter Notebook
+
+Run this comand below on Container Bash prompt.
+
+```bash
+jupyter notebook --no-browser --ip spark.local
+```
+
+and `open http://spark.local:8888` on host computer.
+
+
+Then, you can see on host computer something like this:
+
+![Jupyter na porta 8888](assets/img/jupyter-na-8888.png)
+
+
