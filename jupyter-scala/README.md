@@ -13,10 +13,17 @@ docker run --rm -i -t -p 8888:8888 parana/jupyter-scala
 ## Using Volume and setting Password
 
 ```bash
-docker run --rm -i -t -p 8888:8888 \
-  -v "$(pwd)/notebooks:/notebooks" \
+docker run --rm --name notebooks -i -t \
+  -p 8888:8888 \
+  -v "$(PWD)/notebooks:/notebooks" \
   -e JUPYTER_PASSWORD=my-passwd-123 \
   parana/jupyter-scala
+```
+
+Now you can open the Jupyter Notebook page.
+
+```bash
+open http://localhost:8888
 ```
 
 ## About jupyter-scala Jupyter kernel
@@ -33,5 +40,27 @@ the same way Ammonite does, with the same API, described in
 For editing scala code conveniently, see how to [configure notebook frontend](http://jupyter-notebook.readthedocs.io/en/latest/frontend_config.html#persisting-configuration-settings).
 
 Example of attributes : `indentUnit:2`, `smartIndent:false`
+
+## Internals
+
+All Scala binary assets can be reached at `/root/.jupyter-scala/bootstrap/`
+directory. See below some of this files (without version sufix):
+
+```
+scala-api.jar
+scala-cli.jar
+scala-compiler.jar
+scala-kernel.jar
+scala-library.jar
+scala-logging-api.jar
+scala-parser-combinators.jar
+scala-reflect.jar
+scala-xml.jar
+scalaparse.jar
+scalaz-concurrent.jar
+scalaz-core.jar
+scalaz-effect.jar
+scalaz-stream.jar
+```
 
 

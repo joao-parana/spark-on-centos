@@ -4,4 +4,5 @@ test/myspark/target/
 test/myspark/.settings
 m2-repo-old
 *.swp
+.ipynb_checkpoints
 
