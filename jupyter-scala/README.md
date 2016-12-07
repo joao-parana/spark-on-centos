@@ -63,4 +63,19 @@ scalaz-effect.jar
 scalaz-stream.jar
 ```
 
+## Converting from Markdown to LaTeX
+
+Please run this command on another Terminal
+
+```bash
+docker exec -i -t notebooks bash
+```
+
+Now you can run pandoc on Container Bash prompt.
+
+Example:
+
+```
+pandoc kele.md -f markdown -t latex -s -o kele.tex
+```
 
