@@ -1,5 +1,7 @@
 # Spark
 
+**This repository depends on Git Large Files [https://git-lfs.github.com/](https://git-lfs.github.com/)** 
+
 Create the `parana/spark` Docker Image 
 
 This **Dockerfile** is a [Automated build](https://hub.docker.com/r/parana/spark/) of [Docker Registry](https://hub.docker.com/).
