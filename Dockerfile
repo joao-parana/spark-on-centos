@@ -97,6 +97,8 @@ COPY test /desenv/java/
 
 WORKDIR /desenv/java
 
+VOLUME /mongo
+
 # VOLUME /root/.m2/repository
 COPY m2-repo /root/.m2/repository
 
