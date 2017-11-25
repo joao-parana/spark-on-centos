@@ -74,10 +74,10 @@ RUN yum install -y /tmp/tini_${TINI_VERSION}-amd64.rpm && \
     rm -rf /tmp/tini_${TINI_VERSION}-amd64.rpm && \
     yum clean all
 
-RUN tar xzf apache-maven-3.3.9-bin.tar.gz && \
-    chown root:root -R apache-maven-3.3.9 && \
-    mv apache-maven-3.3.9 /usr/local/maven3 && \
-    rm -rf apache-maven-3.3.9-bin.tar.gz
+RUN tar xzf apache-maven-3.5.2-bin.tar.gz && \
+    chown root:root -R apache-maven-3.5.2 && \
+    mv apache-maven-3.5.2 /usr/local/maven3 && \
+    rm -rf apache-maven-3.5.2-bin.tar.gz
 
 ENV PATH /usr/local/maven3/bin:/usr/local/spark/bin:/usr/local/miniconda/bin:${PATH}
 
