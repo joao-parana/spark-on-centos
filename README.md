@@ -39,6 +39,16 @@ docker run -i -t -h my-spark \
            parana/spark bash
 ```
 
+Now we can explain this commands. See the image bellow
+
+![assets/img/docker-commands.png](assets/img/docker-commands.png)
+
+1. use `git pull` to get the imeage from docker hub.
+2. use `docker run` to run the container. The options `-i -t` is for interactive session. The `-h` option specify the host name for container.
+3. The `-p` option specify port to be "mapped" on host computer.
+4. The `-p` option specify to docker daemon to remove the container when it exits.
+5. At end we specify the image name and commando to be run at start-up.
+
 > You can add `-v $PWD/m2-repo:/usr/local/m2-repo` in case of use the **host directory** to persist the Maven Local Repository. In this case you need alter Dockerfile properly.
 
 The Container Bash shell will open and you can type:
