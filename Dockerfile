@@ -64,7 +64,7 @@ RUN cat ${JAVA_FILE} | tar -xzf - -C /opt && \
 # RUN TINI_VERSION=`curl https://github.com/krallin/tini/releases/latest | grep -o "/v.*\"" | sed 's:^..\(.*\).$:\1:'` && \
 #     echo "TINI_VERSION = ${TINI_VERSION}"
 
-ENV TINI_VERSION 0.13.0
+ENV TINI_VERSION 0.16.1
 ADD https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}-amd64.rpm /tmp/tini_${TINI_VERSION}-amd64.rpm
 ADD https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini_${TINI_VERSION}-amd64.rpm.asc /tmp/tini_${TINI_VERSION}-amd64.rpm.asc
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
