@@ -31,12 +31,15 @@ After restarting boot2docker / Docker Machine, it will have increased swap size.
 
 ## How to use
 
-
 ```
-docker run -i -t -h my-spark -p 8080:8080 --rm parana/spark bash
+docker pull parana/spark
+docker run -i -t -h my-spark \
+           -p 8080:8080 -p 7077:7077 -p 8888:8888 -p 6066:6066 \
+           --rm \
+           parana/spark bash
 ```
 
-> You can add `-v $PWD/m2-repo:/root/.m2/repository` in case of use the **host directory** to persist the Maven Local Repository. In this case you need alter Dockerfile properly.
+> You can add `-v $PWD/m2-repo:/usr/local/m2-repo` in case of use the **host directory** to persist the Maven Local Repository. In this case you need alter Dockerfile properly.
 
 The Container Bash shell will open and you can type:
 

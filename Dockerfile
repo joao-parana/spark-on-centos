@@ -97,7 +97,7 @@ COPY test /desenv/java/
 
 WORKDIR /desenv/java
 
-VOLUME /mongo
+VOLUME /usr/local/m2-repo
 
 # VOLUME /root/.m2/repository
 COPY m2-repo /root/.m2/repository
@@ -109,6 +109,7 @@ RUN cd myspark && mvn clean compile package install -Dmaven.test.skip=true
 # Spark
 EXPOSE 8080
 EXPOSE 7077
+EXPOSE 6066
 # Jupyter Notebook
 EXPOSE 8888
 
