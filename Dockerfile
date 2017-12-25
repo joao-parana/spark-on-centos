@@ -89,7 +89,9 @@ RUN conda install -y jupyter
 
 RUN curl -L -o coursier https://git.io/vgvpD && chmod +x coursier && mv coursier /usr/local/bin && coursier --help
 
-RUN ls -la /tmp/* && /tmp/jupyter-scala && mv /tmp/jupyter-scala /usr/local/bin/
+RUN ls -la /tmp/*
+
+RUN /tmp/jupyter-scala && mv /tmp/jupyter-scala /usr/local/bin/
 
 RUN mkdir -p /desenv/java && mvn -v
 
@@ -112,6 +114,8 @@ EXPOSE 7077
 EXPOSE 6066
 # Jupyter Notebook
 EXPOSE 8888
+
+VOLUME /desenv/scala
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 

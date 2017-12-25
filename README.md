@@ -628,7 +628,7 @@ and will not need to download again.
 Run this comand below on Container Bash prompt.
 
 ```bash
-jupyter notebook --no-browser --ip spark.local
+jupyter notebook --no-browser --ip spark.local --allow-root
 ```
 
 and `open http://spark.local:8888` on host computer.
